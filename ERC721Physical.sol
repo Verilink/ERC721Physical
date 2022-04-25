@@ -66,9 +66,9 @@ abstract contract ERC721Physical is ERC721, IERC721Physical {
     {
         bytes32 _chipId;
         address signer;
-        uint8 v;
-        bytes32 s;
         bytes32 r;
+        bytes32 s;
+        uint8 v;
 
         /* Implicitly requires isPhysical */
         _chipId = chipId(tokenId);
@@ -77,9 +77,9 @@ abstract contract ERC721Physical is ERC721, IERC721Physical {
         require(signature.length == 65, "ERC721:Physical: invalid signature");
 
         /* unpack v, s, r */
+        r = bytes32(signature[0:32]);
+        s = bytes32(signature[32:64]);
         v = uint8(signature[64]);
-        s = bytes32(signature[0:32]);
-        r = bytes32(signature[32:64]);
 
         if(uint256(s) > 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0)
         {
